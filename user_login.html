@@ -90,6 +90,7 @@ async function login(event) {
 
     }catch(error){
         // document.getElementById("message").innerText = "server error"
+        
         document.getElementById("message").innerText = error.msg
         console.error(error)
     }
