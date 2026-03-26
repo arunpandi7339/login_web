@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arun web</title>
+   <style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:'Times New Roman', Times, serif;
+    }
+
+    body{
+        overflow: hidden;
+        position: relative;
+        background-color: rgb(0, 0, 0);
+        color:white;
+        min-height:100vh;
+        display:flex;
+        flex-direction:column;
+        z-index: 1;
+
+        /* animation */
+        opacity:0;
+        animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn{
+        to{
+            opacity:1;
+        }
+    }
+
+    body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/image/b3243a035fc01781bbf141ba9803023d.jpg") no-repeat center center/cover;
+    z-index: -1;
+    }
+    
+    .nav{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        padding:15px 40px;
+        background:rgba(255, 255, 255, 0.079);
+        backdrop-filter: blur(10px);
+        position:sticky;
+        top:0;
+    }
+
+    .nav a{
+        margin-left:20px;
+        text-decoration:none;
+        color:white;
+        transition:0.3s;
+    }
+
+    .nav a:hover{
+        color:#00ffff;
+    }
+
+    div{
+        animation-name: said;
+        animation-duration: 1s;
+        animation-timing-function: ease;
+        animation-iteration-count: 1;
+    }
+
+    @keyframes said {
+        from{
+            transform: translateX(30px);
+            opacity: 0;
+        }
+
+        to{
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .main{
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+    }
+
+    .main h1{
+        font-size:50px;
+    }
+
+    .main p{
+        margin-top:15px;
+        font-size:22px;
+    }
+
+    .main a{
+        margin-top:30px;
+        padding:12px 30px;
+        border-radius:30px;
+        text-decoration:none;
+        background:linear-gradient(45deg,#6a00ff,#00ffff);
+        box-shadow:0 0 20px rgba(0,255,255,0.7);
+        transition:0.4s;
+        color: yellow;
+    }
+
+    .main a:hover{
+        transform:scale(1.1);
+    }
+
+    footer{
+        text-align:center;
+        padding:15px;
+        background:black;
+    }
+
+
+    /* ////////////////////////////////// */
+    /*    responsive   view   */
+    /*//////////////////////////////////  */
+
+/* ============================= */
+/* 📱 Responsive Design */
+/* ============================= */
+
+@media (max-width: 1024px){
+    .main h1{
+        font-size:40px;
+    }
+
+    .main p{
+        font-size:20px;
+    }
+}
+
+/* Tablet */
+@media (max-width: 768px){
+
+    .nav{
+        flex-direction:column;
+        padding:15px 20px;
+        text-align:center;
+    }
+
+    .nav div{
+        margin-top:10px;
+    }
+
+    .nav a{
+        margin:10px;
+        display:inline-block;
+    }
+
+    .main h1{
+        font-size:32px;
+    }
+
+    .main p{
+        font-size:18px;
+        padding:0 20px;
+    }
+
+    .main a{
+        padding:10px 25px;
+        font-size:14px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px){
+
+    .main h1{
+        font-size:26px;
+    }
+
+    .main p{
+        font-size:16px;
+    }
+
+    .main a{
+        width:80%;
+        font-size:14px;
+    }
+
+    footer{
+        font-size:14px;
+    }
+}
+</style>
+</head>
+<body>
+    <nav class="nav">
+        <h2><i>Arun Blog</i> .</h2>
+        <div >
+            <a href="/home.html">Home</a>
+            <a href="/user_login.html">Login</a>
+            <a href="/signup.html">Register</a>
+        </div>
+    </nav>
+
+    <section class="main">
+        <h1>Welcome to My Blog App</h1>
+        <p>Secure login system using Flask & MongoDB</p>
+        <a href="/user_login.html">Get Started</a>
+        
+    </section>
+    <footer>
+       ---  © 2026 Arun Web | Built with Flask & MongoDB  ---
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <style>
+        /* ===== BODY ===== */
+
+body {
+    display:flex;
+    flex-direction:column;
+    margin: 0;
+    padding: 0;
+    font-family:'Times New Roman', Times, serif;
+    background: linear-gradient(
+        135deg,
+        #d20b64 0%,
+        #57048f 30%,
+        #300e80 60%,
+        #3457f5 100%
+        );
+    /* background: linear-gradient(60deg,#8d0801,#708d81,#ffffff,#708d81,#8d0801); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+
+.nav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: #001427;
+    color: #f4d58d;
+    border-bottom:3px solid #bf0603;
+}
+
+.nav h2 {
+    color: white;
+    margin: 0;
+}
+
+/* ===== MENU BUTTON ===== */
+
+.menu-btn{
+    font-size:22px;
+    cursor:pointer;
+    background:#001427;
+    color:#f4d58d;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+
+    transition: transform 1s;
+}
+
+.menu-btn:hover{
+    background:#001427;
+    transform: rotate(1080deg);
+}
+
+/* ===== DROPDOWN ===== */
+
+.dropdown{
+    display:none;
+    background:#708d81;
+    width:150px;
+    border-radius: 0.5rem;
+    position:absolute;
+    right:20px;
+    top: 60px;
+}
+
+.dropdown a{
+    font-size: 1.2rem;
+    display:block;
+    padding:10px;
+    text-decoration:none;
+    color:#001427;
+    border-top:2px solid rgba(0,0,0,0.2);
+}
+
+.dropdown a:nth-child(1){
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.dropdown a:last-child{
+    border-radius:0 0 0.5rem 0.5rem;
+}
+
+.dropdown a:hover{
+    background:rgba(245, 245, 245, 0.629);
+}
+
+/* ===== USER BOX ===== */
+
+.user-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#username {
+    color: #f4d58d;
+    font-weight: bold;
+}
+
+/* ===== BUTTON ===== */
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: #bf0603;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #8d0801;
+}
+
+/* ===== DASHBOARD BOX ===== */
+
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px;
+    flex: 1;
+}
+
+.dashboard-box {
+    background:linear-gradient(160deg,#f4d58d,#001427);
+    padding: 40px;
+    border-radius: 12px;
+    width:90%;
+    max-width:400px;
+    box-shadow: 
+    0 0px 10px #000000,
+    0 0px 20px rgba(0, 0, 0, 0.41),
+    0 0px 25px rgba(0, 0, 0, 0.632);
+}
+
+/* ===== PROFILE DATA ===== */
+
+#data {
+    margin-top: 20px;
+    background: #708d81;
+    padding: 15px;
+    border-radius: 8px;
+    color:#ffffff;
+}
+
+footer{
+    margin-top:80px;
+    background:#001427;
+    color:#f4d58d;
+    text-align:center;
+    padding:15px;
+    border-top:3px solid #bf0603;
+    font-size:14px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width:768px){
+
+    .nav{
+        padding:15px 20px;
+    }
+
+    .dashboard-box{
+        width:50%;
+        padding:25px;
+    }
+
+    .dropdown{
+        right:10px;
+    }
+
+    .user-box{
+        gap:10px;
+        font-size:14px;
+    }
+
+}
+
+@media (max-width:480px){
+
+    .nav h2{
+        font-size:18px;
+    }
+
+    .menu-btn{
+        font-size:20px;
+        padding:8px 12px;
+    }
+
+    .dashboard-container{
+        margin-top:40px;
+    }
+
+}
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="nav">
+        <h2>Arun Blog <span style="color: rgb(234, 0, 255);">.</span></h2>
+
+        <div class="user-box">
+            Welcome, <span id="username"></span>
+            <button onclick="logout()">Logout</button>
+
+            <button class="menu-btn" id="menuBtn">☰</button>
+            <div class="dropdown" id="menu">
+                <a href="#">Profile</a>
+                <a href="#">Settings</a>
+                <a onclick="logout()">Logout</a>
+            </div>
+
+        </div>
+    </nav>
+    <!-- DASHBOARD -->
+
+    <div class="dashboard-container">
+        <div class="dashboard-box">
+
+            <h2>User Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----- DEMO PAGE ----</h2>
+
+            <div id="data">
+                Loading profile...
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+       ---  © 2026 Arun Web | Built with Flask & MongoDB  ---
+    </footer>
+
+</body>
+
+<script>
+
+        /* ===== TOKEN CHECK ===== */
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "/user_login.html";
+        }
+
+        /* ===== GET PROFILE ===== */
+        async function getProfile() {
+            try {
+                const response = await fetch("http://127.0.0.1:5000/api/profile", {     
+                    credentials : 'include',
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                });
+
+                const data = await response.json();
+
+                document.getElementById("username").innerText = data.username;
+
+                document.getElementById("data").innerHTML = `
+                    <p><b>Username:</b> ${data.username}</p>
+                    <p><b>Email:</b> ${data.email}</p>
+                    <p><b>User ID:</b> ${data.user_id}</p>
+                    <p><b>Joined:</b> ${data.created_at}</p>
+                `;
+
+            } catch (error) {
+
+                document.getElementById("data").innerText = "Error loading profile";
+
+                console.error(error);
+            }
+        }
+
+        /* ===== LOGOUT ===== */
+
+        // function logout() {
+        //     localStorage.removeItem("token");
+        //     window.location.href = "/templates/user_login.html";
+        // }
+
+        async function logout() {
+            console.log("checking")
+            fetch("http://127.0.0.1:5000/api/logout", {
+                method: "GET",
+                credentials: "include"   // 🔥 IMPORTANT (send session cookie)
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                window.location.href = "/templates/user_login.html";
+            })
+            .catch(err => console.error(err));
+        }
+
+        /* ===== AUTO LOAD PROFILE ===== */
+
+        window.onload = getProfile;
+
+        // ===============  menu    --------------------->
+
+        const menuBtn = document.getElementById("menuBtn");
+        const menu = document.getElementById("menu");
+
+        menuBtn.addEventListener("click", function(event){
+
+            event.stopPropagation();
+
+            if(menu.style.display === "block"){
+                menu.style.display = "none";
+                menuBtn.innerHTML = "☰";
+            }else{
+                menu.style.display = "block";
+                menuBtn.innerHTML = "✖";
+            }
+
+        });
+ 
+</script>
+
+</html>
