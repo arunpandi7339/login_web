@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, session,render_template
 from pymongo import MongoClient
+import os
 import uuid
 from datetime import datetime, timedelta
 from flask_cors import CORS
@@ -10,17 +11,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
+
 # SECRET_KEY = "asdfghjklq123456ertyuiocbnm56882r"
 
 app = Flask(__name__)
-app.secret_key = "6729cb9af81fbdb4bbf6058345989753fad8233c0cc133fcd1d6dcb75279a220"
+app.secret_key = os.getenv('secret_key')
 # CORS(app)
 CORS(app, supports_credentials=True)
 
 # -------------------------------
 # MongoDB Connection
 # -------------------------------
-database = MongoClient("mongodb+srv://arunpandi9794:arun_17_05@cluster0.q1ixhxq.mongodb.net/?appName=Cluster0")
+database = MongoClient(os.getenv('database'))
 
 users_db = database["login_users_list"]
 user_collection = users_db["user_data"]
