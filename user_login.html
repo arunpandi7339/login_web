@@ -48,6 +48,7 @@
     </footer>
 
 </body>
+<script src="/static/js/config.js"></script>
 <script>
 async function login(event) {
 
@@ -58,7 +59,7 @@ async function login(event) {
 
     try{
 
-        const response = await fetch("http://127.0.0.1:5000/api/login",{
+        const response = await fetch(`${API_BASE_URL}api/login`,{
 
             method:"POST",
 
