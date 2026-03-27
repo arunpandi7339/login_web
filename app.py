@@ -6,7 +6,6 @@ from datetime import datetime, timedelta
 from flask_cors import CORS
 import jwt
 from functools import wraps
-import bcrypt
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
