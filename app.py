@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
-# SECRET_KEY = "asdfghjklq123456ertyuiocbnm56882r"
+SECRET_KEY = "asdfghjklq123456ertyuiocbnm56882r"
 
 app = Flask(__name__)
 app.secret_key = os.getenv('secret_key')
@@ -30,32 +30,32 @@ user_collection = users_db["user_data"]
 # -------------------------------
 # Token Authorization
 # -------------------------------
-# def token_authorization(func):
-#     @wraps(func)
-#     def data_decode(*args, **kwargs):
+def token_authorization(func):
+    @wraps(func)
+    def data_decode(*args, **kwargs):
 
-#         token = None
-#         auth_header = request.headers.get("Authorization")
+        token = None
+        auth_header = request.headers.get("Authorization")
 
-#         if auth_header:
-#             token = auth_header.split(" ")[1]
+        if auth_header:
+            token = auth_header.split(" ")[1]
 
-#         if not token:
-#             return jsonify({"msg": "Token not found"}), 401
+        if not token:
+            return jsonify({"msg": "Token not found"}), 401
 
-#         try:
-#             user = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-#             user_id = user["user_id"]
+        try:
+            user = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+            user_id = user["user_id"]
 
-#         except jwt.ExpiredSignatureError:
-#             return jsonify({"msg": "Token expired. Try again"}), 401
+        except jwt.ExpiredSignatureError:
+            return jsonify({"msg": "Token expired. Try again"}), 401
 
-#         except jwt.InvalidTokenError:
-#             return jsonify({"msg": "Invalid token"}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({"msg": "Invalid token"}), 401
 
-#         return func(user_id, *args, **kwargs)
+        return func(user_id, *args, **kwargs)
 
-#     return data_decode
+    return data_decode
 
 
 def login_required(f):
@@ -126,47 +126,25 @@ def login():
     if not user or not check_password_hash(user["password"], password):
         return jsonify({"msg": "Invalid username or Password"}), 401
 
-    # token_data = {
-    #     "user_id": user["user_id"],
-    #     "exp": datetime.now() + timedelta(hours=1)
-    # }
+    token_data = {
+        "user_id": user["user_id"],
+        "exp": datetime.now() + timedelta(hours=1)
+    }
 
-    # token = jwt.encode(token_data, SECRET_KEY, algorithm="HS256")
-    session["user_id"] = user["user_id"]
-    session["username"] = user["username"]
+    token = jwt.encode(token_data, SECRET_KEY, algorithm="HS256")
+    # session["user_id"] = user["user_id"]
+    # session["username"] = user["username"]
 
-    # return jsonify({"token": token})
-    return jsonify({"msg":"Login success"})
+    return jsonify({"token": token})
+    # return jsonify({"msg":"Login success"})
 
 
 # -------------------------------
 # Protected API Example
 # -------------------------------
-# @app.route("/api/profile", methods=["GET"])
-# @token_authorization
-# def profile(user_id):
-
-#     user = user_collection.find_one(
-#         {"user_id": user_id},
-#         {"_id": 0, "password": 0}
-#     )
-
-#     if not user:
-#         return jsonify({"msg": "User not found"}), 404
-
-#     return jsonify(user), 200
-
-
-
-
-#session based #
-
 @app.route("/api/profile", methods=["GET"])
-@login_required
-def profile():
-    print(session, "<- session data")
-    user_id = session["user_id"]
-    print(user_id,"<- hem")
+@token_authorization
+def profile(user_id):
 
     user = user_collection.find_one(
         {"user_id": user_id},
@@ -179,12 +157,33 @@ def profile():
     return jsonify(user), 200
 
 
-@app.route("/api/logout")
-def logout():
-    session.clear()
-    return jsonify({"msg": "Logged out"})
 
-from flask import jsonify
+
+#session based #
+
+# @app.route("/api/profile", methods=["GET"])
+# @login_required
+# def profile():
+#     print(session, "<- session data")
+#     user_id = session["user_id"]
+#     print(user_id,"<- hem")
+
+#     user = user_collection.find_one(
+#         {"user_id": user_id},
+#         {"_id": 0, "password": 0}
+#     )
+
+#     if not user:
+#         return jsonify({"msg": "User not found"}), 404
+
+#     return jsonify(user), 200
+
+
+# @app.route("/api/logout")
+# def logout():
+#     session.clear()
+#     return jsonify({"msg": "Logged out"})
+
 
 @app.errorhandler(404)
 def not_found(error):

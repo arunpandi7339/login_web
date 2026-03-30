@@ -267,8 +267,10 @@ footer{
         /* ===== GET PROFILE ===== */
         async function getProfile() {
             try {
-                const response = await fetch(`${API_BASE_URL}api/profile`, {     
-                    credentials : 'include',
+                const response = await fetch(`${API_BASE_URL}api/profile`, {
+                    
+                    method:"GET",
+                    
                     headers: {
                         "Authorization": "Bearer " + token
                     }
@@ -295,24 +297,24 @@ footer{
 
         /* ===== LOGOUT ===== */
 
-        // function logout() {
-        //     localStorage.removeItem("token");
-        //     window.location.href = "/templates/user_login.html";
-        // }
-
-        async function logout() {
-            console.log("checking")
-            fetch(`${API_BASE_URL}api/logout`, {
-                method: "GET",
-                credentials: "include"   // 🔥 IMPORTANT (send session cookie)
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                window.location.href = "/user_login.html";
-            })
-            .catch(err => console.error(err));
+        function logout() {
+            localStorage.removeItem("token");
+            window.location.href = "/user_login.html";
         }
+
+        // async function logout() {
+        //     console.log("checking")
+        //     fetch(`${API_BASE_URL}api/logout`, {
+        //         method: "GET",
+        //         credentials: "include"   // 🔥 IMPORTANT (send session cookie)
+        //     })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         window.location.href = "/user_login.html";
+        //     })
+        //     .catch(err => console.error(err));
+        // }
 
         /* ===== AUTO LOAD PROFILE ===== */
 

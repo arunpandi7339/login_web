@@ -10,7 +10,7 @@
     <nav class="nav">
         <h2><i>Arun Blog</i> .</h2>
         <div >
-            <a class="nav-a-tag" href="/home.html">Home</a>
+            <a class="nav-a-tag" href="/index.html">Home</a>
             <a class="nav-a-tag" href="/user_login.html">Login</a>
             <a class="nav-a-tag" href="/signup.html">Register</a>
         </div>
@@ -62,8 +62,6 @@ async function login(event) {
         const response = await fetch(`${API_BASE_URL}api/login`,{
 
             method:"POST",
-
-            credentials: "include",
             
             headers:{
                 "Content-Type":"application/json"
@@ -78,11 +76,9 @@ async function login(event) {
         const data = await response.json()
 
         if(response.ok){
-
             localStorage.setItem("token", data.token)
-
             alert("Login successful")
-
+            
             window.location.href="/dashboard.html"
 
         }else{
@@ -90,8 +86,6 @@ async function login(event) {
         }
 
     }catch(error){
-        // document.getElementById("message").innerText = "server error"
-        
         document.getElementById("message").innerText = error.msg
         console.error(error)
     }
